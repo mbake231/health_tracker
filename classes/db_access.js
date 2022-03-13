@@ -39,7 +39,7 @@ async function getAccount (uid,cb) {
             });
         })
 }
-
+//Looks for activites by date and if it finds one it replaces it and if its doesnt find one it adds it
 async function updateActivity (uid,obj,cb) {
 
     MongoPool.getInstance(function (db) {
