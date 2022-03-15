@@ -78,24 +78,42 @@ app.listen(PORT, () => {
 
 
 //API ENDPOINTS
+function isAuthenticated(req, res, next) {
+    if (req.user) return next();
+    else
+      return res.status(401).json({
+        error: "User not authenticated",
+      });
+  }
 
 //Get user account details
 app.get("/User", (req, res) => {
-    getUser(req.query.uid, function (data) {
-        res.send(data);
-    });
+    if(req.user)
+        getUser(req.user._id, function (data) {
+            res.send(data);
+        });
+    else
+        res.status(401).json({
+            error: "User not authenticated",
+        });
 });
 
 //Get full account details
 app.get("/Account", (req, res) => {
-    getAccount(req.query.uid, function (data) {
-        res.send(data);
-    });
+    if(req.user)
+        getAccount(req.user._id, function (data) {
+            res.send(data);
+        });
+    else
+        res.status(401).json({
+            error: "User not authenticated",
+        });
 });
 
 //Add or edit activity 
 app.post("/Activity/edit", (req, res) => {
     //validate inputs and create payload  UID,ACTIVITY OBJECT(date,activity_type,valid property)
+    if(req.user)
     try {
         validateActivityObject(req.body, function (isValid) {
             if (isValid) {
@@ -117,10 +135,14 @@ app.post("/Activity/edit", (req, res) => {
         });
     } catch (err) {}
 
+    else
+        res.status(401).json({
+            error: "User not authenticated",
+        });
+
 });
 
 app.post('/sendOTP', (req, res) => {
-    console.log(req.user)
     const phone = req.body.phone;
     const otp = Math.floor(100000 + Math.random() * 900000);
     const ttl = 2 * 60 * 1000;
