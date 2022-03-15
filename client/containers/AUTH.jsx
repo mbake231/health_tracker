@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { ThisMonthInstance } from 'twilio/lib/rest/api/v2010/account/usage/record/thisMonth';
+import { Redirect } from "react-router-dom";
 
 
 export class API extends Component {
+
     
     
   state = {
@@ -35,6 +36,11 @@ export class API extends Component {
       .then(res => {
         const res_data = res.data;
         console.log(res_data)
+        console.log(!res_data.registered)
+
+        if(!res_data.registered)
+        window.location.href='/register';
+
       })
   }
 
@@ -66,7 +72,8 @@ export class API extends Component {
 
 
   render() {
-    return (<div>
+    return (<div> 
+        
       <input
             type="text"
             value={this.state.value}

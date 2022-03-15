@@ -23,7 +23,6 @@ function initialize(passport, getUserByEmail, getUserById) {
                             if(err) throw err;
                             else
                                 {
-                                    console.log(res)
                                     dbo.collection("Users").findOne({
                                         _id: res.insertedId
                                     }, async function (err, user) {
