@@ -185,13 +185,13 @@ app.post('/verifyOTP', function (req, res, next) {
         let newCalculatedHash = crypto.createHmac('sha256', smsKey).update(data).digest('hex');
 
         if (newCalculatedHash === hashValue) {
-            console.log('user confirmed');
+            console.log('valid phone number confirmed');
             passport.authenticate('custom', function (err, user, info) {
                 if (err) {
                     return res.status(401).json(err);
                 }
                 if (user) {
-                    req.login(user, function (err) { // I added req.login() here and now deserializeUser is being called and req.user is being set correctly.
+                    req.login(user, function (err) { 
                         if (err) {
                             return res.status(401).json(err);
                         } else {
@@ -200,6 +200,8 @@ app.post('/verifyOTP', function (req, res, next) {
                     });
                 } else {
                     res.status(401).json(info);
+                  //  res.redirect('your/404/path.html');
+
                 }
             })(req, res, next)
         } else {

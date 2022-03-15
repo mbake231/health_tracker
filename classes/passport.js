@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
+const { ObjectId } = require('mongodb');
 require('dotenv').config();
 const MongoPool = require('./db.js');
 const LocalStrategy = require('passport-local').Strategy;
 const CustomStrategy = require('passport-custom').Strategy;
-
-ObjectId = require('mongodb').ObjectId;
+//ObjectId = require('mongodb').ObjectId;
 
 function initialize(passport, getUserByEmail, getUserById) {
     passport.use(new CustomStrategy(
@@ -17,20 +17,35 @@ function initialize(passport, getUserByEmail, getUserById) {
                 }, async function (err, user) {
                     if (err) throw err;
                     if (user == null) {
-                        return done(null, false, {
-                            message: "No user with that email"
-                        })
+                        //no user found, but save phone since its confirmed
+                        dbo.collection("Users").insertOne({phone:req.body.phone,registered:false}, 
+                            async function (err,res){
+                            if(err) throw err;
+                            else
+                                {
+                                    console.log(res)
+                                    dbo.collection("Users").findOne({
+                                        _id: res.insertedId
+                                    }, async function (err, user) {
+                                        if (err) throw err;
+                                        if (user == null) {
+                                            return done(null, false, {
+                                                message: "Error adding new number"
+                                            })
+                                        }
+                                        else {
+                                            return done(null, user)
+                                        }
+                                     })
+                                 }
+                            }
+                         )
                     }
                     try {
                         if (user) {
                             console.log('found user!')
-
                             return done(null, user)
-                        } else {
-                            return done(null, false, {
-                                message: 'Password incorrect'
-                            })
-                        }
+                        } 
                     } catch (e) {
                         return done(e);
                     }
