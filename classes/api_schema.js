@@ -29,4 +29,34 @@ const activityObjectSchema = Joi.object({
         }
 }
 
+const registerObjectSchema = Joi.object({
+    first: Joi.string()
+        .min(2)
+        .max(64)
+        .required(),
+
+    last: Joi.string()
+        .min(2)
+        .max(64)
+        .required(),
+    
+    email: Joi.string()
+        .email()
+        .required(),
+        
+    
+});
+
+ function validateRegisterObject(obj, cb){
+        const test  = registerObjectSchema.validate(obj);
+        if (test.error){
+            console.log(test.error)
+            return cb(false)
+        }
+        else{
+            return cb(true)
+        }
+}
+
 exports.validateActivityObject=validateActivityObject;
+exports.validateRegisterObject=validateRegisterObject;

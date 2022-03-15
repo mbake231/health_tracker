@@ -25,10 +25,11 @@ const path = require('path');
 const {
     getUser,
     getAccount,
-    updateActivity
+    updateActivity,
+    registerUser
 } = require('./classes/db_access.js');
 const {
-    validateActivityObject
+    validateActivityObject,validateRegisterObject
 } = require('./classes/api_schema.js');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -92,6 +93,50 @@ app.get("/User", (req, res) => {
         getUser(req.user._id, function (data) {
             res.send(data);
         });
+    
+    else
+        res.status(401).json({
+            error: "User not authenticated",
+        });
+});
+
+app.post("/register", (req, res) => {
+    //ensure not registered
+    if(!req.user.registered)
+        validateRegisterObject(req.body,function(isValid){
+            if(isValid){
+                var payload=req.body;
+                payload['phone']=req.user.phone;
+                payload['_id']=req.user._id;
+
+                registerUser(payload, function(done){
+                    if(done){
+                        console.log('registering:'+JSON.stringify(payload));
+                        res.status(200).json({message:'User registered'});
+                    }
+                    else{
+                        console.log('error registering')
+                        res.status(401).json({
+                            error: "Error registering",
+                        });
+                    }
+                });
+            }
+            else{
+                console.log("something went wrong in registering");
+                res.status(401).json({
+                    error: "User is eligible but invalid register request",
+                });
+            }
+
+        })
+    
+    else if(req.user.registered) {
+        console.log("already registered!");
+        res.status(401).json({
+            error: "User already registered",
+        });
+    }
     else
         res.status(401).json({
             error: "User not authenticated",
@@ -100,10 +145,16 @@ app.get("/User", (req, res) => {
 
 //Get full account details
 app.get("/Account", (req, res) => {
-    if(req.user)
+    if(req.user.registered)
         getAccount(req.user._id, function (data) {
             res.send(data);
         });
+    else if (req.user && !req.user.registered) {
+        //if !registered just send user so FE knows to register
+        getUser(req.user._id, function (data) {
+            res.send(data);
+        });
+    }
     else
         res.status(401).json({
             error: "User not authenticated",

@@ -18,7 +18,8 @@ async function getUser (id,cb) {
                     weightinDay:user.weightinDay,
                     firstDay:user.firstDay,
                     phone:user.phone,
-                    email:user.email
+                    email:user.email,
+                    registered:user.registered
                 }
                 return cb(payload);
             });
@@ -39,6 +40,42 @@ async function getAccount (id,cb) {
             });
         })
 }
+
+//If user has validated an phone numbers update their account info
+async function registerUser (user,cb) {
+    MongoPool.getInstance(function (db) {
+        //	if (err) throw err;
+            var dbo = db.db('User');
+            console.log(user)
+            var newUser = {
+                first:user.first,
+                last:user.last,
+                email:user.email,
+                phone:user.phone,
+                email_confirmed:false,
+                weightinDay:4,
+                firstDayofWeek:0,
+                registered:true,
+                activity_data:{diet_data:[],fasting_data:[],workout_data:[],alcohol_data:[]}
+            }
+            
+            dbo.collection("Users").replaceOne({_id:new ObjectId(user._id)},newUser, function(err, res) {
+                if (err) throw err;
+                if(res.modifiedCount==1){
+                        console.log(res);
+                        return cb(true);
+                }
+                    
+                else{
+                    console.log("error saving register data")
+                    return cb(false);
+                }
+
+            });
+        })
+}
+
+
 //Looks for activites by date and if it finds one it replaces it and if its doesnt find one it adds it
 async function updateActivity (uid,obj,cb) {
 
@@ -94,4 +131,5 @@ function getSubKeyActivityName(at){
 exports.getUser=getUser;
 exports.getAccount=getAccount;
 exports.updateActivity=updateActivity;
+exports.registerUser=registerUser;
 
