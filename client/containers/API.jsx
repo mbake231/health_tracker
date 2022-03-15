@@ -13,7 +13,7 @@ export class API extends Component {
   componentDidMount() {
 
     //test user api
-    axios.get('http://localhost:3000/User', { params: { uid: '12345' }, })
+    axios.get('http://localhost:3000/User', { withCredentials: true } )
       .then(res => {
         const res_data = res.data;
         this.setState({ user_api: JSON.stringify(res.data) })
@@ -21,21 +21,22 @@ export class API extends Component {
       })
 
     //test account api
-    axios.get('http://localhost:3000/Account', { params: { uid: '12345' }, })
+    axios.get('http://localhost:3000/Account',{ withCredentials: true  })
       .then(res => {
         const res_data = res.data;
         this.setState({ acct_api: JSON.stringify(res.data) })
         console.log(res_data)
       })
 
-      var json = JSON.stringify({
-        "activity_type" : "alcohol",
-        "date" : "2022-02-14",
-        "activity_data" : {
-            "alcoholDrinksHad" : "14"
-            
-        }});
-      axios.post('http://localhost:3000/Activity/edit', json,{
+      var json = ({
+        activity_type : "alcohol",
+        date : "2022-02-14",
+        activity_data : {
+            alcoholDrinksHad : "14"
+        }
+        });
+
+      axios.post('http://localhost:3000/Activity/edit', json,{ withCredentials: true },{
         headers: {'Content-Type': 'application/json'}})
       .then(res => {
         const res_data = res.data;

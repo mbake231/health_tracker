@@ -5,14 +5,14 @@ ObjectId = require('mongodb').ObjectId;
 
 
 //Find and Return User Specific Object from DB
-async function getUser (uid,cb) {
+async function getUser (id,cb) {
     MongoPool.getInstance(function (db) {
         //	if (err) throw err;
             var dbo = db.db('User');
-            
-            dbo.collection("Users").findOne({uid:uid}, function(err, user) {
+            console.log(id)
+            dbo.collection("Users").findOne({_id: ObjectId(id)}, function(err, user) {
                 if (err) throw err;
-                var payload={uid:user.uid,
+                var payload={id:user._id,
                     first:user.first,
                     last:user.last,
                     weightinDay:user.weightinDay,
@@ -27,12 +27,12 @@ async function getUser (uid,cb) {
 
 
 //Find and Return Full User Object from DB
-async function getAccount (uid,cb) {
+async function getAccount (id,cb) {
     MongoPool.getInstance(function (db) {
         //	if (err) throw err;
             var dbo = db.db('User');
             
-            dbo.collection("Users").findOne({uid:uid}, function(err, user) {
+            dbo.collection("Users").findOne({_id:new ObjectId(id)}, function(err, user) {
                 if (err) throw err;
                 
                 return cb(user);
