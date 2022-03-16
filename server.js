@@ -164,11 +164,12 @@ app.get("/Account", (req, res) => {
 //Add or edit activity 
 app.post("/Activity/edit", (req, res) => {
     //validate inputs and create payload  UID,ACTIVITY OBJECT(date,activity_type,valid property)
+    console.log(req.user._id)
     if(req.user)
     try {
         validateActivityObject(req.body, function (isValid) {
             if (isValid) {
-                updateActivity('12345', req.body, function (result) {
+                updateActivity(req.user._id, req.body, function (result) {
                     if (result)
                         res.status(200);
                     else

@@ -26,7 +26,7 @@ export class API extends Component {
 
   sendOTP(){
     var jsonPhone = ({
-        phone:'+19738791234',
+        phone:'+19738790000',
         hash:this.state.hash,
         otp:this.state.value
       
@@ -51,7 +51,7 @@ export class API extends Component {
   txtOTP(){
 
     var jsonPhone = ({
-        phone:'+19738791234'
+        phone:'+19738790000'
         });
 
       axios.post('http://localhost:3000/sendOTP',jsonPhone,{ withCredentials: true }, {

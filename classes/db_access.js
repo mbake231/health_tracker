@@ -53,6 +53,7 @@ async function registerUser (user,cb) {
                 email:user.email,
                 phone:user.phone,
                 email_confirmed:false,
+                testAccount:false,
                 weightinDay:4,
                 firstDayofWeek:0,
                 registered:true,
@@ -77,13 +78,13 @@ async function registerUser (user,cb) {
 
 
 //Looks for activites by date and if it finds one it replaces it and if its doesnt find one it adds it
-async function updateActivity (uid,obj,cb) {
+async function updateActivity (_id,obj,cb) {
 
     MongoPool.getInstance(function (db) {
         //	if (err) throw err;
             var dbo = db.db('User');
             
-            dbo.collection("Users").findOne({uid:uid}, function(err, data) {
+            dbo.collection("Users").findOne({_id:ObjectId(_id)}, function(err, data) {
                 if (err) throw err;
                 var newdata = data;
         
@@ -105,9 +106,7 @@ async function updateActivity (uid,obj,cb) {
                         update=true;
                     }
                     if(updated)
-                        return cb(true);
-             
-                 
+                        return cb(true);           
             });
         })
 }
