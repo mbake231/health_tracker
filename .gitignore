@@ -1,4 +1,18 @@
 .env
-/client/.env
+/client_old/.env
 /node_modules
-/client/node_modules
+/client_old/node_modules
+/client_new/node_modules/
+/client_new/.expo/
+/client_new/dist/
+/client_new/npm-debug.*
+/client_new/*.jks
+/client_new/*.p8
+/client_new/*.p12
+/client_new/*.key
+/client_new/*.mobileprovision
+/client_new/*.orig.*
+/client_new/web-build/
+
+# macOS
+/client_new/.DS_Store
