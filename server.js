@@ -33,7 +33,7 @@ const {
 } = require('./classes/api_schema.js');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const twilio = require('twilio')(accountSid, authToken);
+// const twilio = require('twilio')(accountSid, authToken);
 const crypto = require('crypto');
 const passport = require("passport");
 var initializePassport = require("./classes/passport.js");
@@ -102,7 +102,7 @@ app.get("/User", (req, res) => {
 
 app.post("/register", (req, res) => {
     //ensure not registered
-    if(!req.user.registered)
+    // if(!req?.user?.registered)
         validateRegisterObject(req.body,function(isValid){
             if(isValid){
                 var payload=req.body;
@@ -131,16 +131,16 @@ app.post("/register", (req, res) => {
 
         })
     
-    else if(req.user.registered) {
-        console.log("already registered!");
-        res.status(401).json({
-            error: "User already registered",
-        });
-    }
-    else
-        res.status(401).json({
-            error: "User not authenticated",
-        });
+    // else if(req.user.registered) {
+    //     console.log("already registered!");
+    //     res.status(401).json({
+    //         error: "User already registered",
+    //     });
+    // }
+    // else
+    //     res.status(401).json({
+    //         error: "User not authenticated",
+    //     });
 });
 
 //Get full account details
@@ -195,6 +195,7 @@ app.post("/Activity/edit", (req, res) => {
 });
 
 app.post('/sendOTP', (req, res) => {
+    console.log('yas req', req)
     const phone = req.body.phone;
     const otp = Math.floor(100000 + Math.random() * 900000);
     const ttl = 2 * 60 * 1000;
