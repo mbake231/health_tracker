@@ -15,12 +15,7 @@ export class API extends Component {
   };
 
   home(){
-    axios.post('http://localhost:3000/home',{ withCredentials: true },{
-        headers: {'Content-Type': 'application/json'}})
-      .then(res => {
-        const res_data = res.data;
-        console.log(res_data)
-      })
+    window.location.href='/'
 
   }
 
