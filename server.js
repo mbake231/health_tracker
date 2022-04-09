@@ -145,7 +145,7 @@ app.post("/register", (req, res) => {
 
 //Get full account details
 app.get("/Account", (req, res) => {
-    if(req.user.registered)
+    if(req.user && req.user.registered)
         getAccount(req.user._id, function (data) {
             res.send(data);
         });
@@ -159,6 +159,8 @@ app.get("/Account", (req, res) => {
         res.status(401).json({
             error: "User not authenticated",
         });
+   
+        
 });
 
 //Add or edit activity 
