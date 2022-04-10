@@ -33,7 +33,7 @@ export class home extends Component {
 
             }).catch((error) => {
                 console.log(error); //Logs a string: Error: Request failed with status code 404
-                //  window.location.href='/auth';
+                 window.location.href='/welcome';
 
             });
     }
