@@ -32,7 +32,12 @@ function submitNewAlcoholData(e){
     }
     });
 console.log(JSON.stringify(json))
-  axios.post('http://localhost:3000/Activity/edit', json,{ withCredentials: true },{
+var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+  axios.post(url+'/Activity/edit', json,{ withCredentials: true },{
         headers: {'Content-Type': 'application/json'}})
       .then(
         setTimeout(() => {

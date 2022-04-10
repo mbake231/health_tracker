@@ -16,8 +16,12 @@ register(){
         email:"bobfog@mail.com"
         
         });
-
-      axios.post('http://localhost:3000/register', json,{ withCredentials: true },{
+        var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+      axios.post(url+'/register', json,{ withCredentials: true },{
         headers: {'Content-Type': 'application/json'}})
       .then(res => {
         const res_data = res.data;
@@ -28,7 +32,12 @@ register(){
   componentDidMount() {
 
     //test user api
-    axios.get('http://localhost:3000/User', { withCredentials: true } )
+    var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+    axios.get(url+'/User', { withCredentials: true } )
       .then(res => {
         const res_data = res.data;
         this.setState({ user_api: JSON.stringify(res.data) })
