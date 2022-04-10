@@ -28,7 +28,7 @@ export class API extends Component {
     });
     var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com';
+            url='';
         else
             url='http://localhost:3000'
     axios.post(url+'/verifyOTP', jsonPhone,{ withCredentials: true },{
@@ -55,7 +55,7 @@ export class API extends Component {
         });
         var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com';
+            url='';
         else
             url='http://localhost:3000'
       axios.post(url+'/sendOTP',jsonPhone,{ withCredentials: true }, {
