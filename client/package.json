@@ -8,6 +8,9 @@
     "ios": "expo run:ios",
     "web": "expo start --web"
   },
+  "engines": {
+    "node": "12.18.4"
+  },
   "dependencies": {
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.9.0",
