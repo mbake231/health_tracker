@@ -54,15 +54,14 @@ app.use(
 );
 
 app.use(cookieParser());
+
 var cors_url;
 if(process.env.NODE_ENV=='production')
     cors_url='https://health-track-949.herokuapp.com'
 else
     cors_url='http://localhost:19006'
-app.use(cors({
-    origin: cors_url,
-    credentials: true
-}));
+
+app.use(cors());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
