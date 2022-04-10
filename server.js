@@ -58,7 +58,7 @@ app.use(cookieParser());
 
 app.use(
     cors({
-        origin: "https://health-track-949.herokuapp.com", 
+        origin: "https://health-track-949.herokuapp.com:"+process.env.PORT, 
         credentials: true,
     })
 );
