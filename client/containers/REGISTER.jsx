@@ -18,7 +18,7 @@ register(){
         });
         var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
       axios.post(url+'/register', json,{ withCredentials: true },{
@@ -34,7 +34,7 @@ register(){
     //test user api
     var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
     axios.get(url+'/User', { withCredentials: true } )

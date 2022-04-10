@@ -15,7 +15,7 @@ export class API extends Component {
     //test user api
     var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
     axios.get(url+'/User', { withCredentials: true } )
@@ -28,7 +28,7 @@ export class API extends Component {
     //test account api
     var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
     axios.get(url+'/Account',{ withCredentials: true  })
@@ -48,7 +48,7 @@ export class API extends Component {
 
         var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
       axios.post(url+'/Activity/edit', json,{ withCredentials: true },{

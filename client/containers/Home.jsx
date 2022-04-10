@@ -17,7 +17,7 @@ export class home extends Component {
         console.log('updating data')
         var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
 

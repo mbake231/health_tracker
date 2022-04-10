@@ -34,7 +34,7 @@ function submitNewAlcoholData(e){
 console.log(JSON.stringify(json))
 var url;
         if(process.env.NODE_ENV=='production')
-            url='https://health-track-949.herokuapp.com/';
+            url='https://health-track-949.herokuapp.com';
         else
             url='http://localhost:3000'
   axios.post(url+'/Activity/edit', json,{ withCredentials: true },{
