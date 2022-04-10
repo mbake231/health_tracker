@@ -55,13 +55,28 @@ app.use(
 
 app.use(cookieParser());
 
-
+if(process.env.NODE_ENV==='production'){
 app.use(
     cors({
-        origin: "https://health-track-949.herokuapp.com:"+process.env.PORT, 
+        origin: "https://health-track-949.herokuapp.com", 
         credentials: true,
     })
 );
+}
+else{
+app.use(
+    cors({
+        origin: "http://localhost:19006"+process.env.PORT, 
+        credentials: true,
+    })
+);
+}
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.use(bodyParser.urlencoded({
     extended: false
