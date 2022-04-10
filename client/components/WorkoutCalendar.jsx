@@ -4,19 +4,17 @@ import Drawer from "react-bottom-drawer";
 import axios from 'axios';
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
-export default function EatingCalendar(props) {
+export default function WorkoutCalendar(props) {
 
-  const [followedDiet, setFollowedDiet] = useState(true);
-  const [fastEnded, setFastEnded] = useState(false);
+  const [workOut, setWorkOut] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-
   const [date, setDate] = useState(false);
 
   function getDayData(d) {   
   var ctr = 0;
-  while (ctr<props.diet_data.length){
-    if(props.diet_data[ctr].date===d.dateString){
-      return props.diet_data[ctr].activity_data.followedDiet+props.diet_data[ctr].activity_data.fastEnded;
+  while (ctr<props.workout_data.length){
+    if(props.workout_data[ctr].date===d.dateString){
+      return props.workout_data[ctr].activity_data.workOut;
     }
     ctr++;
   }
@@ -28,19 +26,18 @@ function submitNewEatingData(){
  // console.log(drinkValue+' '+date);
 
   var json = ({
-    activity_type : "diet",
+    activity_type : "workout",
     date : date,
     activity_data : {
-        followedDiet : followedDiet,
-        fastEnded:fastEnded
+        workOut : workOut
     }
     });
-console.log(JSON.stringify(json))
-var url;
+    var url;
         if(process.env.NODE_ENV=='production')
             url='prod';
         else
             url='http://localhost:3000'
+console.log(JSON.stringify(json))
   axios.post(url+'/Activity/edit', json,{ withCredentials: true },{
         headers: {'Content-Type': 'application/json'}})
       .then(
@@ -165,15 +162,10 @@ const styles = StyleSheet.create({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <form onChange={e=>setFollowedDiet(e.target.value)}>
+          <form onChange={e=>setWorkOut(e.target.value)}>
               <div>Followed diet?</div>
-                <input type="radio" value="true" name="followedDiet"/> True
-                <input type="radio" value="false" name="followedDiet"/> False
-            </form>
-            <div>Ended Fast?</div>
-            <form onChange={e=>setFastEnded(e.target.value)}>
-                <input type="radio" value="true" name="followedDiet"/> True
-                <input type="radio" value="false" name="followedDiet"/> False
+                <input type="radio" value="cardio" name="followedDiet"/> Cardio
+                <input type="radio" value="strength" name="followedDiet"/> Strength
             </form>
             <Pressable
               style={[styles.button, styles.buttonClose]}

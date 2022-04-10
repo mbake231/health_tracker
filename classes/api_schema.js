@@ -12,7 +12,7 @@ const activityObjectSchema = Joi.object({
     activity_data: Joi.object({
         fastEnded:Joi.boolean(),
         followedDiet:Joi.boolean(),
-        workedOut:Joi.boolean(),
+        workOut:Joi.string(),
         alcoholDrinksHad:Joi.number()
     })
     

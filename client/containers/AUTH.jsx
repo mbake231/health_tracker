@@ -26,7 +26,12 @@ export class API extends Component {
         otp:this.state.value
       
     });
-    axios.post('http://localhost:3000/verifyOTP', jsonPhone,{ withCredentials: true },{
+    var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+    axios.post(url+'/verifyOTP', jsonPhone,{ withCredentials: true },{
         headers: {'Content-Type': 'application/json'}})
       .then(res => {
         const res_data = res.data;
@@ -48,8 +53,12 @@ export class API extends Component {
     var jsonPhone = ({
         phone:'+19738790000'
         });
-
-      axios.post('http://localhost:3000/sendOTP',jsonPhone,{ withCredentials: true }, {
+        var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+      axios.post(url+'/sendOTP',jsonPhone,{ withCredentials: true }, {
         headers: {'Content-Type': 'application/json'}})
       .then(res => {
         const res_data = res.data;

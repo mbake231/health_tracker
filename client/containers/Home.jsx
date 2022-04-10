@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import AlcoholCalendar from '../components/AlcoholCalendar';
 import EatingCalendar from '../components/EatingCalendar';
-
+import WorkoutCalendar from '../components/WorkoutCalendar';
 import axios from 'axios';
 import { Tabs, Tab } from "@tarragon/swipeable-tabs";
+import Config from "react-native-config";
 
 export class home extends Component {
 
@@ -14,7 +15,13 @@ export class home extends Component {
 
     updateData() {
         console.log('updating data')
-        axios.get('http://localhost:3000/Account', { withCredentials: true })
+        var url;
+        if(process.env.NODE_ENV=='production')
+            url='prod';
+        else
+            url='http://localhost:3000'
+
+        axios.get(url+'/Account', { withCredentials: true })
             .then(res => {
                 if (res) {
 
@@ -42,9 +49,7 @@ export class home extends Component {
 
     render() {
         return (<div>
-            home
-            <button onClick={e => this.updateData()}>update data</button>
-
+            
             <Tabs value={this.state.selectedTab} onChange={updateTab => this.changeTab(updateTab.label)}>
                 <Tab label="Drinks" key={0}>
                         <AlcoholCalendar updateData={this.updateData.bind(this)} alcohol_data={(this.state.account ? this.state.account.activity_data.alcohol_data : {})}
@@ -54,12 +59,11 @@ export class home extends Component {
                     <EatingCalendar updateData={this.updateData.bind(this)} diet_data={(this.state.account ? this.state.account.activity_data.diet_data : {})}
                         />
                     </Tab>
-                <Tab label="Tab 3" key={2}>
-                    <div>Tab 3 content</div>
+                <Tab label="Workout" key={2}>
+                <WorkoutCalendar updateData={this.updateData.bind(this)} workout_data={(this.state.account ? this.state.account.activity_data.workout_data : {})}
+                        />
                 </Tab>
-                <Tab label="Tab 4" key={3}>
-                    <div>Tab 4 content</div>
-                </Tab>
+               
             </Tabs>
 
         </div>

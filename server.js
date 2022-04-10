@@ -77,7 +77,10 @@ app.listen(PORT, () => {
     console.log(`Now listening on port ${PORT}`);
 });
 
-
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+ });
+ 
 //API ENDPOINTS
 function isAuthenticated(req, res, next) {
     if (req.user) return next();

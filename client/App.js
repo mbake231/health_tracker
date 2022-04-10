@@ -6,6 +6,7 @@ import HOME from './containers/Home.jsx';
 
 
 import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
+require('dotenv').config()
 
 export default function App() {
   return (
