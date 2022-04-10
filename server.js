@@ -56,7 +56,12 @@ app.use(
 app.use(cookieParser());
 
 
-app.use(cors());
+app.use(
+    cors({
+        origin: "https://health-track-949.herokuapp.com", 
+        credentials: true,
+    })
+);
 
 app.use(bodyParser.urlencoded({
     extended: false
