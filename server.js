@@ -62,7 +62,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/web-build')));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -99,9 +99,7 @@ app.listen(PORT, () => {
     console.log(`Now listening on port ${PORT}`);
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
- });
+
  
 //API ENDPOINTS
 function isAuthenticated(req, res, next) {
