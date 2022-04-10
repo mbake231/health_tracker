@@ -62,7 +62,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'client/web-build')));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -94,6 +93,12 @@ app.use(function(req, res, next) {
     next();
   });
 
+  if(process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/web-build'));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'client','web-build','index.html'));
+	})
+}
 
 app.listen(PORT, () => { 
     console.log(`Now listening on port ${PORT}`);
