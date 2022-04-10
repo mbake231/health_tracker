@@ -34,7 +34,7 @@ function submitNewEatingData(){
     });
     var url;
         if(process.env.NODE_ENV=='production')
-            url='prod';
+            url='https://health-track-949.herokuapp.com/';
         else
             url='http://localhost:3000'
 console.log(JSON.stringify(json))
