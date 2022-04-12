@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import Drawer from "react-bottom-drawer";
 import axios from 'axios';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { Alert, StyleSheet, Text, Pressable, View } from "react-native";
+import Modal from "react-native-modal";
 
 export default function WorkoutCalendar(props) {
 
@@ -22,9 +23,6 @@ export default function WorkoutCalendar(props) {
 }
 
 function submitNewEatingData(){
-
- // console.log(drinkValue+' '+date);
-
   var json = ({
     activity_type : "workout",
     date : date,
@@ -50,7 +48,13 @@ console.log(JSON.stringify(json))
         setModalVisible(false);
   
 }
-
+function getDataforScroll(){
+    var today = new Date();
+    var month = today.getMonth()+5;
+    var year = today.getFullYear();
+    return year+'-'+month+'-01'
+  }
+  
 
 function handleClickDay(d){
 
@@ -60,7 +64,6 @@ function handleClickDay(d){
 
 const styles = StyleSheet.create({
     centeredView: {
-      flex: 1,
       justifyContent: "center",
       alignItems: "center",
       marginTop: 22
@@ -135,13 +138,12 @@ const styles = StyleSheet.create({
     }
   }}
 
-       
+
          // Callback which gets executed when visible months change in scroll view. Default = undefined
-   onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
    // Max amount of months allowed to scroll to the past. Default = 50
-   pastScrollRange={3}
+   pastScrollRange={10}
    // Max amount of months allowed to scroll to the future. Default = 50
-   futureScrollRange={2}
+   futureScrollRange={4}
    // Enable or disable scrolling of calendar list
    scrollEnabled={true}
    // Enable or disable vertical scroll indicator. Default = false
@@ -152,6 +154,7 @@ const styles = StyleSheet.create({
 
 
             <Modal
+         onBackdropPress={() => {setModalVisible(!modalVisible)}}
         animationType="slide"
         transparent={true}
         visible={modalVisible}

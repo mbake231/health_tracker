@@ -10,11 +10,12 @@ export class home extends Component {
 
     state = {
         account: null,
-        selectedTab: "Tab 1"
+        selectedTab: "Drinks"
     };
 
+    
+
     updateData() {
-        console.log('updating data')
         var url;
         if(process.env.NODE_ENV=='production')
             url='';
@@ -50,8 +51,9 @@ export class home extends Component {
     render() {
         return (<div>
             
-            <Tabs value={this.state.selectedTab} onChange={updateTab => this.changeTab(updateTab.label)}>
-                <Tab label="Drinks" key={0}>
+            <Tabs tabItemCSS={{color:'#8C1C13', fontWeight:'bold'}}
+             tabBarCSS={{backgroundColor:'white',color:'#8C1C13'}} value={this.state.selectedTab} onChange={updateTab => this.changeTab(updateTab.label)}>
+                <Tab  label="Drinks" key={0}>
                         <AlcoholCalendar updateData={this.updateData.bind(this)} alcohol_data={(this.state.account ? this.state.account.activity_data.alcohol_data : {})}
                         />
                       </Tab>

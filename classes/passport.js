@@ -68,7 +68,7 @@ function initialize(passport, getUserByEmail, getUserById) {
                 "_id": ObjectId(id)
             }, function (err, result) {
                 if (err) throw err;
-                console.log("Successfully deserailized:" + result._id);
+               // console.log("Successfully deserailized:" + result._id);
 
                 return done(null, result);
             });

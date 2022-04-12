@@ -4,13 +4,22 @@ import AUTH from './containers/AUTH.jsx';
 import REGISTER from './containers/REGISTER.jsx';
 import HOME from './containers/Home.jsx';
 import Welcome from './containers/Welcome.jsx'
-
+import { Menu,Alert, StyleSheet, Text, Pressable, View } from "react-native";
 import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
+import NavBar from './components/NavBar.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './globalstyles.css'
+
 require('dotenv').config()
 
+
 export default function App() {
-  return (
-    <Router>
+  return (<div id='AppContainer'>
+    
+     
+<NavBar></NavBar>
+<div >
+<Router>
     <Routes>
       <Route path='/api' element={<API/>} />
       <Route path='/auth' element={<AUTH/>} />
@@ -20,8 +29,11 @@ export default function App() {
       <Route path='/' element={<HOME/>} />
 
 
+
     </Routes>
     </Router>
+    </div>
+    </div>
   );
 }
 

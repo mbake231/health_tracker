@@ -39,8 +39,6 @@ export class Welcome extends Component {
   render() {
     return (<div> 
         {(this.state.view==='submitPhone'?
-        
-       
         <SubmitPhone handlePhoneSubmit={this.handlePhoneSubmit.bind(this)} devhandlePhoneSubmit={this.devhandlePhoneSubmit.bind(this)}></SubmitPhone> :
         <VerifyOTP phone={this.state.phone} hash={this.state.hash} otp={this.state.otp}></VerifyOTP>
         )}

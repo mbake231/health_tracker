@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import Drawer from "react-bottom-drawer";
 import axios from 'axios';
+import { Alert, StyleSheet, Text, Pressable, View } from "react-native";
+import Modal from "react-native-modal";
 
 export default function AlcoholCalendar(props) {
 
+
   const [drinkValue, setDrinkValue] = useState("");
-  const [drawerVisibile, setDrawyerVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [date, setDate] = useState(false);
 
   function getDayData(d) {   
@@ -20,10 +22,53 @@ export default function AlcoholCalendar(props) {
   return 'empty';
 }
 
-function submitNewAlcoholData(e){
-  e.preventDefault();
-  console.log(drinkValue+' '+date);
 
+const styles = StyleSheet.create({
+  centeredView: {
+    
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
+});
+
+
+function submitNewAlcoholData(){
   var json = ({
     activity_type : "alcohol",
     date : date,
@@ -46,26 +91,33 @@ var url;
 
         
         );
-  setDrawyerVisible(false);
+        setModalVisible(false);
   
 }
 
 
+
 function handleClickDay(d){
-  console.log(d.dateString)
-  setDrawyerVisible(true);
+  setModalVisible(true);
   setDate(d.dateString);
 }
 
       return (
         <div>
-        <CalendarList
-      style={{height:'600px'}}
+        <CalendarList 
+     style={{height:'600px'}}
         dayComponent={({date, state}) => {
           return (
-           
-              <div onClick={() => {handleClickDay(date)}} style={{textAlign: 'center'}}>{getDayData(date)}</div>
-           
+            <div style={{height: 'inherit', width:'100%'}}>
+            {(
+              getDayData(date)==='empty' ? 
+              <View style={{height:'99%',width:'99%'}} >
+                <div onClick={() => {handleClickDay(date)}} style={{height: '100%', width:'100%',backgroundColor: '#ccc'}}></div>
+              </View>
+              :
+            <div onClick={() => {handleClickDay(date)}} style={{display: 'flex', margin: 'auto', justifyContent:'center',paddingTop:'15px'}}>{getDayData(date)}</div>
+              )}
+              </div>
           );
         }}
         
@@ -89,25 +141,47 @@ function handleClickDay(d){
     }
   }}
 
-       
          // Callback which gets executed when visible months change in scroll view. Default = undefined
-   onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
    // Max amount of months allowed to scroll to the past. Default = 50
-   pastScrollRange={3}
+   pastScrollRange={0}
    // Max amount of months allowed to scroll to the future. Default = 50
-   futureScrollRange={2}
+   futureScrollRange={4}
    // Enable or disable scrolling of calendar list
    scrollEnabled={true}
    // Enable or disable vertical scroll indicator. Default = false
    showScrollIndicator={true}
   
  />
- <Drawer
-        isVisible={drawerVisibile}
-        >
-           <input type="text" value={drinkValue} onChange={e => setDrinkValue(e.target.value)} />
-          <button onClick={(e)=>{submitNewAlcoholData(e)}}>Submit</button>
-            </Drawer></div>
+
+            <Modal
+        animationType="slide"
+        onBackdropPress={() => {setModalVisible(!modalVisible)}}
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+       
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <form onChange={e=>setDrinkValue(e.target.value)}>
+              <div>Number of drinks</div>
+              <input type="text" value={drinkValue} onChange={e => setDrinkValue(e.target.value)} />
+            </form>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => submitNewAlcoholData()}
+            >
+              <Text style={styles.textStyle}>Save</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+            
+            
+            </div>
           )
       }
 
