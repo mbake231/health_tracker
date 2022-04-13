@@ -61,7 +61,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.use(bodyParser.json());
+
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -86,7 +86,7 @@ initializePassport(
     (email) => users.find((user) => user.email === email),
     (id) => users.find((user) => user.id === id)
 );
-
+app.use(bodyParser.json());
 if(process.env.NODE_ENV==='production')
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -196,8 +196,9 @@ app.post("/Activity/edit", (req, res) => {
         validateActivityObject(req.body, function (isValid) {
             if (isValid) {
                 updateActivity(req.user._id, req.body, function (result) {
-                    if (result)
-                        res.status(200);
+                    if (result){
+                        res.status(200).send('Activity data saved!');
+                    }
                     else
                         res.status(400).json({
                             success: false,

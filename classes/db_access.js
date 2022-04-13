@@ -87,7 +87,6 @@ async function updateActivity (_id,obj,cb) {
             dbo.collection("Users").findOne({_id:ObjectId(_id)}, function(err, data) {
                 if (err) throw err;
                 var newdata = data;
-        
                 var subkey=getSubKeyActivityName(obj.activity_type);
                 var updated=false;
               //  data.activity_data[subkey].forEach(function(ele,i){
@@ -103,10 +102,12 @@ async function updateActivity (_id,obj,cb) {
                     if(!updated){
                         newdata.activity_data[subkey].push(obj);
                         dbo.collection("Users").updateOne({_id:new ObjectId(data._id)},{$set:{activity_data:newdata.activity_data}});
-                        update=true;
+                        updated=true;
                     }
-                    if(updated)
-                        return cb(true);           
+                    if(updated){
+                        return cb(true);  
+                    }
+                                 
             });
         })
 }
