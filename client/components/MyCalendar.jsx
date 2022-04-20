@@ -81,10 +81,17 @@ export class MyCalendar extends Component {
     };
 
 
-     
+    _refCalendarList = ref => (this._calendarList = ref);
+
 
 componentDidMount(){
     this.setState({calendarType:this.props.calendarType});
+    setTimeout(() => {
+      let newDate = new Date();
+      let month = newDate.getMonth() + 1;
+      let year = newDate.getFullYear();
+      this._calendarList.scrollToMonth(year+'-'+month);
+    });
 }
 
 formatDayData(){
@@ -98,12 +105,7 @@ closeModal(){
 handleClickDay(date){
   this.setState({clickedDate:date.dateString});
     this.setState({modalVisible:!this.state.modalVisible});
-};
-  
-
-  
-  
-
+}
 
 //decomissioned
  getDayData(calendarType,d) {  
@@ -203,7 +205,9 @@ render(){
     return(<div>
        <CalModals clickedDateData={this.state.clickedDateData} acct_activity_data={this.props.acct_activity_data} updateData={this.props.updateData} closeModal={this.closeModal.bind(this)} clickedDate={this.state.clickedDate} modalVisible={this.state.modalVisible} calType={this.state.calendarType} ></CalModals>
          <CalendarList
+         ref={this._refCalendarList}
         style={{ height: '600px' }}
+     
         dayComponent={({ date, state }) => {
           return (
             <div style={{ height: 'inherit', width: '100%' }}>
