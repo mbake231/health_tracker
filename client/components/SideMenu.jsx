@@ -43,20 +43,27 @@ export default function SideMenu() {
           padding: '0.8em'
         },
         bmItem: {
-          display: 'inline-block'
+          display: 'inline-block',
+          textDecoration:'none',
+          color:'#fff',
+        fontSize:'30px',
+        fontWeight:'bold'
         },
         bmOverlay: {
           background: 'rgba(0, 0, 0, 0.3)'
         }
       }
+    
 
       // NOTE: You also need to provide styles, see https://github.com/negomi/react-burger-menu#styling
       return (
         <Menu styles={styles} isOpen={false}>
             
-          
-        <a id="home" className="menu-item" href="/">My trackers</a><br></br>
-        <a id="about" className="menu-item" href="/about">Content</a>
+            <br/>
+        <a id="home" className="menuItem" href="/">Home</a><br/>
+        <a id="about" className="menuItem" href="/page">Guides</a><br/>
+        <a id="about" className="menuItem" href="/about">Disclosures</a><br/>
+        <a id="about" className="menuItem" href="/about">Contact me</a>
     
       </Menu>
      

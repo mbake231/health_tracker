@@ -10,7 +10,7 @@ export default function VerifyOTP(props) {
     var jsonPhone = ({
         phone:props.phone,
         hash:props.hash,
-        otp:props.otp
+        otp:OTP
       
     });
     var url;
@@ -33,13 +33,18 @@ export default function VerifyOTP(props) {
 }
 
 
-return(<div> 
-    Verify the code sent to your phone <br/><br/>
+return(<div style={{textAlign:'center',textSize:'40px'}}> 
+     
+    <h1 style={{paddingTop:'30px',fontWeight:'bold',fontSize:'30px', fontFamily: 'Source Sans Pro', fontFamily:'S'}}>Verify the code sent to your phone</h1> <br/><br/><br/>
+
     <input
     type="text"
-    value={props.otp}
+    value={OTP}
     onChange={e=>handleChange(e)}
- />
+    style={{margin:'0 auto',
+        width:'300px'
+        }}
+ /><br/><br/>
 
  <button onClick={e=>submitOTP()}>Submit OTP </button>
  <br/><br/><br/><br/>Dev stuff

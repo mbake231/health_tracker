@@ -229,7 +229,7 @@ app.post('/sendOTP', (req, res) => {
     const data = `${phone}.${otp}.${expires}`;
     const hash = crypto.createHmac('sha256', smsKey).update(data).digest('hex');
     const fullHash = `${hash}.${expires}`;
-    /*
+    
     	twilio.messages
     		.create({
     			body: `Your One Time Login Password For CFM is ${otp}`,
@@ -238,16 +238,17 @@ app.post('/sendOTP', (req, res) => {
     		})
     		.then((messages) => console.log(messages))
     		.catch((err) => console.error(err));
-    */
+   /*
     res.status(200).send({
         phone,
         hash: fullHash,
         otp
-    }); // this bypass otp via api only for development instead hitting twilio api all the time
-    //res.status(200).send({ phone, hash: fullHash });          // Use this way in Production
+    }); */ // this bypass otp via api only for development instead hitting twilio api all the time
+    res.status(200).send({ phone, hash: fullHash });          // Use this way in Production
 });
 
 app.post('/verifyOTP', function (req, res, next) {
+ 
         const phone = req.body.phone;
         const hash = req.body.hash;
         const otp = req.body.otp;
@@ -270,6 +271,7 @@ app.post('/verifyOTP', function (req, res, next) {
                     return res.status(401).json(err);
                 }
                 if (user) {
+                    //NEED TO REGISTER
                     req.login(user, function (err) { 
                         if (err) {
                             return res.status(401).json(err);

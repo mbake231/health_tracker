@@ -3,7 +3,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import axios from 'axios';
 import { Alert, StyleSheet, Text, Pressable, View } from "react-native";
 import Modal from "react-native-modal";
-import AlcoholDay from './AlcoholDay';
+import FormattedDay from './FormattedDay';
 import CalModals from './CalModals';
 import { cos } from 'react-native-reanimated';
 
@@ -13,6 +13,7 @@ export class MyCalendar extends Component {
       state = {
         calendarType:null,
         clickedDate:null,
+        clickedDateData:null,
         modalVisible:false,
         calTheme:{
         backgroundColor: '#ccc',
@@ -96,47 +97,99 @@ closeModal(){
 
 handleClickDay(date){
   this.setState({clickedDate:date.dateString});
-  this.setState({modalVisible:!this.state.modalVisible});
+    this.setState({modalVisible:!this.state.modalVisible});
+};
   
+
+  
+  
+
+
+//decomissioned
+ getDayData(calendarType,d) {  
+
+
+    if(calendarType==='alcohol' && this.props.acct_activity_data) {
+    var ctr = 0;
+  
+    while (ctr < this.props.acct_activity_data.length) {
+      if (this.props.acct_activity_data[ctr].date === d) {
+        return this.props.acct_activity_data[ctr].activity_data.alcoholDrinksHad;
+      }
+      ctr++;
+    }
+    return null;
+  }
+
+  else if(calendarType==='diet' && this.props.acct_activity_data) {
+    var ctr = 0;
+    if( this.props.acct_activity_data.length)
+    while (ctr<this.props.acct_activity_data.length){
+        if(this.props.acct_activity_data[ctr].date===d){
+          return this.props.acct_activity_data[ctr].activity_data.followedDiet+this.props.acct_activity_data[ctr].activity_data.fastEnded;   
+            
+        
+        }
+        ctr++;
+    }
+    return null;
+  }
+
+  else if(calendarType==='workout' && this.props.acct_activity_data) {
+    var ctr = 0;
+    if( this.props.acct_activity_data.length)
+     while (ctr<this.props.acct_activity_data.length){
+    if(this.props.acct_activity_data[ctr].date===d){
+      return this.props.acct_activity_data[ctr].activity_data.workOut;
+    }
+    ctr++;
+  }
+  return null;
+  }
+
 }
 
 getDayDiv(d) {
-
   var emptyDivState = 
   <View style={{ height: '99%', width: '99%' }} >
-    <div onClick={() => { this.handleClickDay(d) }} style={{ height: '100%', width: '100%', backgroundColor: '#ccc' }}></div>
+    <div onClick={() => { this.handleClickDay(d) }} style={{ height: '95%', width: '100%', backgroundColor: '#eeeeee' }}></div>
   </View>
   
 
-    if(this.state.calendarType==='alcohol') {
+    if(this.state.calendarType==='alcohol' && this.props.acct_activity_data) {
     var ctr = 0;
-    while (ctr < this.props.alcohol_data.length) {
-      if (this.props.alcohol_data[ctr].date === d.dateString) {
-        return (<AlcoholDay dayData={this.props.alcohol_data[ctr].activity_data.alcoholDrinksHad}> 
-            
-          </AlcoholDay>);
+  
+    while (ctr < this.props.acct_activity_data.length) {
+      if (this.props.acct_activity_data[ctr].date === d.dateString) {
+        return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.alcoholDrinksHad}>    
+          </FormattedDay>);
       }
       ctr++;
     }
     return emptyDivState;
   }
 
-  else if(this.state.calendarType==='diet') {
+  else if(this.state.calendarType==='diet' && this.props.acct_activity_data) {
     var ctr = 0;
-    while (ctr<this.props.diet_data.length){
-        if(this.props.diet_data[ctr].date===d.dateString){
-        return this.props.diet_data[ctr].activity_data.followedDiet+this.props.diet_data[ctr].activity_data.fastEnded;
+    if( this.props.acct_activity_data.length)
+    while (ctr<this.props.acct_activity_data.length){
+        if(this.props.acct_activity_data[ctr].date===d.dateString){
+          return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.followedDiet+this.props.acct_activity_data[ctr].activity_data.fastEnded}>    
+            </FormattedDay>);
+        
         }
         ctr++;
     }
     return emptyDivState;
   }
 
-  else if(this.state.calendarType==='workout') {
+  else if(this.state.calendarType==='workout' && this.props.acct_activity_data) {
     var ctr = 0;
-     while (ctr<this.props.workout_data.length){
-    if(this.props.workout_data[ctr].date===d.dateString){
-      return this.props.workout_data[ctr].activity_data.workOut;
+    if( this.props.acct_activity_data.length)
+     while (ctr<this.props.acct_activity_data.length){
+    if(this.props.acct_activity_data[ctr].date===d.dateString){
+      return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.workOut}>    
+        </FormattedDay>);
     }
     ctr++;
   }
@@ -148,7 +201,7 @@ getDayDiv(d) {
 
 render(){
     return(<div>
-       <CalModals updateData={this.props.updateData} closeModal={this.closeModal.bind(this)} clickedDate={this.state.clickedDate} modalVisible={this.state.modalVisible} calType={this.state.calendarType}></CalModals>
+       <CalModals clickedDateData={this.state.clickedDateData} acct_activity_data={this.props.acct_activity_data} updateData={this.props.updateData} closeModal={this.closeModal.bind(this)} clickedDate={this.state.clickedDate} modalVisible={this.state.modalVisible} calType={this.state.calendarType} ></CalModals>
          <CalendarList
         style={{ height: '600px' }}
         dayComponent={({ date, state }) => {

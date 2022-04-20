@@ -60,10 +60,10 @@ async function registerUser (user,cb) {
                 activity_data:{diet_data:[],fasting_data:[],workout_data:[],alcohol_data:[]}
             }
             
-            dbo.collection("Users").replaceOne({_id:new ObjectId(user._id)},newUser, function(err, res) {
+            dbo.collection("Users").insertOne(newUser, function(err, res) {
                 if (err) throw err;
-                if(res.modifiedCount==1){
-                        console.log(res);
+                if(res){
+                        console.log('Registered:'+JSON.stringify(res)+' info:'+JSON.stringify(user));
                         return cb(true);
                 }
                     

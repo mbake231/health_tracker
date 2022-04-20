@@ -9,7 +9,7 @@ import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
 import NavBar from './components/NavBar.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globalstyles.css'
-
+import PAGE from './pages/page1.jsx'
 require('dotenv').config()
 
 
@@ -27,6 +27,8 @@ export default function App() {
 
       <Route path='/register' element={<REGISTER/>} />
       <Route path='/' element={<HOME/>} />
+      <Route path='/page' element={<PAGE/>} />
+
 
 
 

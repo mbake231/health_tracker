@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { Alert, StyleSheet, Text, Pressable, View } from "react-native";
 import Modal from "react-native-modal";
@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 export default function CalModals(props) {
 
   //alcohol
-  const [drinkValue, setDrinkValue] = useState("");
+  const [drinkValue, setDrinkValue] = useState('');
 
   //workout
   const [workOut, setWorkOut] = useState('');
@@ -107,13 +107,21 @@ export default function CalModals(props) {
 
   }
 
+
+
+
+
   function getModalQuestions(calType){
-    console.log(calType)
+
+
+
     if(calType==='alcohol'){
         return <View style={styles.modalView}>
         <form onChange={e => setDrinkValue(e.target.value)}>
           <div>Number of drinks</div>
-          <input type="text" value={drinkValue} onChange={e => setDrinkValue(e.target.value)} />
+          <input type="text" value={drinkValue} onChange={e => setDrinkValue(e.target.value)}/>
+          
+          
         </form>
         <Pressable
           style={[styles.button, styles.buttonClose]}
@@ -171,7 +179,7 @@ export default function CalModals(props) {
       return (
            <Modal
         animationType="slide"
-        onBackdropPress={() => { props.closeModal() }}
+        onBackdropPress={() => {props.closeModal() }}
         transparent={true}
         visible={props.modalVisible}
         onRequestClose={() => {

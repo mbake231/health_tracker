@@ -26,13 +26,13 @@ export class home extends Component {
 
                     const res_data = res.data;
                     this.setState({ account: (res.data) })
-                    console.log(this.state.account)
+                    console.log(res.data)
 
                 }
 
             }).catch((error) => {
                 console.log(error); //Logs a string: Error: Request failed with status code 404
-                window.location.href='/welcome';
+             //   window.location.href='/welcome';
 
             });
     }
@@ -52,15 +52,15 @@ export class home extends Component {
             <Tabs tabItemCSS={{color:'#8C1C13', fontWeight:'bold'}}
              tabBarCSS={{backgroundColor:'white',color:'#8C1C13'}} value={this.state.selectedTab} onChange={updateTab => this.changeTab(updateTab.label)}>
                 <Tab  label="Drinks" key={0}>
-                        <MyCalendar calendarType={'alcohol'} updateData={this.updateData.bind(this)} alcohol_data={(this.state.account ? this.state.account.activity_data.alcohol_data : {})}
+                        <MyCalendar calendarType={'alcohol'} updateData={this.updateData.bind(this)} acct_activity_data={(this.state.account ? this.state.account.activity_data.alcohol_data : {})}
                         />
                       </Tab>
                 <Tab label="Eating" key={1}>
-                    <MyCalendar calendarType={'diet'} updateData={this.updateData.bind(this)} diet_data={(this.state.account ? this.state.account.activity_data.diet_data : {})}
+                    <MyCalendar calendarType={'diet'} updateData={this.updateData.bind(this)} acct_activity_data={(this.state.account ? this.state.account.activity_data.diet_data : {})}
                         />
                     </Tab>
                 <Tab label="Workout" key={2}>
-                <MyCalendar calendarType={'workout'} updateData={this.updateData.bind(this)} workout_data={(this.state.account ? this.state.account.activity_data.workout_data : {})}
+                <MyCalendar calendarType={'workout'} updateData={this.updateData.bind(this)} acct_activity_data={(this.state.account ? this.state.account.activity_data.workout_data : {})}
                         />
                 </Tab>
                

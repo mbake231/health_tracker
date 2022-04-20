@@ -4,7 +4,10 @@ require('dotenv').config();
 const MongoPool = require('./db.js');
 const LocalStrategy = require('passport-local').Strategy;
 const CustomStrategy = require('passport-custom').Strategy;
-//ObjectId = require('mongodb').ObjectId;
+const {
+    registerUser
+} = require('./db_access.js');
+
 
 function initialize(passport, getUserByEmail, getUserById) {
     passport.use(new CustomStrategy(
@@ -18,13 +21,11 @@ function initialize(passport, getUserByEmail, getUserById) {
                     if (err) throw err;
                     if (user == null) {
                         //no user found, but save phone since its confirmed
-                        dbo.collection("Users").insertOne({phone:req.body.phone,registered:false}, 
-                            async function (err,res){
-                            if(err) throw err;
-                            else
-                                {
+                        registerUser(req.body, function (res){
+  
+                                if(res){
                                     dbo.collection("Users").findOne({
-                                        _id: res.insertedId
+                                        phone: req.body.phone
                                     }, async function (err, user) {
                                         if (err) throw err;
                                         if (user == null) {
@@ -36,7 +37,10 @@ function initialize(passport, getUserByEmail, getUserById) {
                                             return done(null, user)
                                         }
                                      })
-                                 }
+                                    }
+                                    else{
+                                        console.log('error registering')
+                                    }
                             }
                          )
                     }
