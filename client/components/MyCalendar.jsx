@@ -94,8 +94,9 @@ componentDidMount(){
       let year = newDate.getFullYear();
       var todaysDate=year+'-'+('0' + month).slice(-2)+'-'+('0' + day).slice(-2);
     setTimeout(() => {
-      this._calendarList.scrollToMonth(year+'-'+month);
-    },500);
+      console.log(year+'-'+month)
+      this._calendarList.scrollToMonth(year+'-'+('0' + month).slice(-2));
+    });
     this.setState({calendarType:this.props.calendarType});
     this.setState({todaysDate:todaysDate});
 
