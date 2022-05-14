@@ -12,6 +12,7 @@ export class MyCalendar extends Component {
    
       state = {
         calendarType:null,
+        todaysDate:null,
         clickedDate:null,
         clickedDateData:null,
         modalVisible:false,
@@ -85,13 +86,20 @@ export class MyCalendar extends Component {
 
 
 componentDidMount(){
-    this.setState({calendarType:this.props.calendarType});
-    setTimeout(() => {
-      let newDate = new Date();
+    
+  let newDate = new Date();
+  
+      let day = newDate.getDate();
       let month = newDate.getMonth() + 1;
       let year = newDate.getFullYear();
+      var todaysDate=year+'-'+('0' + month).slice(-2)+'-'+('0' + day).slice(-2);
+    setTimeout(() => {
       this._calendarList.scrollToMonth(year+'-'+month);
     });
+    this.setState({calendarType:this.props.calendarType});
+    this.setState({todaysDate:todaysDate});
+
+
 }
 
 formatDayData(){
@@ -152,9 +160,17 @@ handleClickDay(date){
 }
 
 getDayDiv(d) {
+
+  var bgColor = '#eeeeee'
+  var isToday=false;
+  if(d.dateString===this.state.todaysDate) {
+    isToday=true;
+    bgColor = '#00FFFF'
+    }
+
   var emptyDivState = 
   <View style={{ height: '99%', width: '99%' }} >
-    <div onClick={() => { this.handleClickDay(d) }} style={{ height: '95%', width: '100%', backgroundColor: '#eeeeee' }}></div>
+    <div onClick={() => { this.handleClickDay(d) }} style={{ height: '95%', width: '100%', backgroundColor:bgColor }}></div>
   </View>
   
 
@@ -163,7 +179,7 @@ getDayDiv(d) {
   
     while (ctr < this.props.acct_activity_data.length) {
       if (this.props.acct_activity_data[ctr].date === d.dateString) {
-        return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.alcoholDrinksHad}>    
+        return (<FormattedDay isToday={isToday} calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.alcoholDrinksHad}>    
           </FormattedDay>);
       }
       ctr++;
@@ -176,7 +192,7 @@ getDayDiv(d) {
     if( this.props.acct_activity_data.length)
     while (ctr<this.props.acct_activity_data.length){
         if(this.props.acct_activity_data[ctr].date===d.dateString){
-          return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.followedDiet+this.props.acct_activity_data[ctr].activity_data.fastEnded}>    
+          return (<FormattedDay isToday={isToday} calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.followedDiet+this.props.acct_activity_data[ctr].activity_data.fastEnded}>    
             </FormattedDay>);
         
         }
@@ -190,7 +206,7 @@ getDayDiv(d) {
     if( this.props.acct_activity_data.length)
      while (ctr<this.props.acct_activity_data.length){
     if(this.props.acct_activity_data[ctr].date===d.dateString){
-      return (<FormattedDay calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.workOut}>    
+      return (<FormattedDay isToday={isToday} calendarType={this.props.calendarType} dayData={this.props.acct_activity_data[ctr].activity_data.workOut}>    
         </FormattedDay>);
     }
     ctr++;
@@ -210,9 +226,16 @@ render(){
      
         dayComponent={({ date, state }) => {
           return (
+            //if not todays date
             <div style={{ height: 'inherit', width: '100%' }}>
                   <div style={{ height: 'inherit', width: '100%' }} onClick={() => { this.handleClickDay(date) }} >
-                      {this.getDayDiv(date)}
+                    
+                  {this.getDayDiv(date)}
+                      {date===this.state.todaysDate ? 
+                      (<div style={{backgroundColor:'#eeeeee'}}>{this.getDayDiv(date,true)}</div>):
+                      
+                      (<div style={{backgroundColor:'blue'}}>{this.getDayDiv(date,false)}</div> )}
+                      
                   </div>
               
             </div>
