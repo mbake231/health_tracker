@@ -95,7 +95,7 @@ componentDidMount(){
       var todaysDate=year+'-'+('0' + month).slice(-2)+'-'+('0' + day).slice(-2);
     setTimeout(() => {
       this._calendarList.scrollToMonth(year+'-'+month);
-    });
+    },500);
     this.setState({calendarType:this.props.calendarType});
     this.setState({todaysDate:todaysDate});
 
@@ -229,13 +229,7 @@ render(){
             //if not todays date
             <div style={{ height: 'inherit', width: '100%' }}>
                   <div style={{ height: 'inherit', width: '100%' }} onClick={() => { this.handleClickDay(date) }} >
-                    
                   {this.getDayDiv(date)}
-                      {date===this.state.todaysDate ? 
-                      (<div style={{backgroundColor:'#eeeeee'}}>{this.getDayDiv(date,true)}</div>):
-                      
-                      (<div style={{backgroundColor:'blue'}}>{this.getDayDiv(date,false)}</div> )}
-                      
                   </div>
               
             </div>
