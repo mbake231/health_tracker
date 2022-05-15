@@ -56,7 +56,7 @@ async function registerUser (user,cb) {
                 testAccount:false,
                 weightinDay:4,
                 firstDayofWeek:0,
-                registered:true,
+                registered:false,
                 activity_data:{diet_data:[],fasting_data:[],workout_data:[],alcohol_data:[]}
             }
             

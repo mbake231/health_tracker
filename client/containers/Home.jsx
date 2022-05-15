@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import MyCalendar from '../components/MyCalendar';
+import Cookies from 'js-cookie'
 
 import axios from 'axios';
 import { Tabs, Tab } from "@tarragon/swipeable-tabs";
+import Tutorial from '../components/Tutorial';
+
 
 export class home extends Component {
-
+    
     state = {
         account: null,
-        selectedTab: "Drinks"
+        selectedTab: "Drinks",
+        showTutorial: false
     };
 
-    
+   
 
     updateData() {
         var url;
@@ -32,13 +36,19 @@ export class home extends Component {
 
             }).catch((error) => {
                 console.log(error); //Logs a string: Error: Request failed with status code 404
-             //   window.location.href='/welcome';
+               window.location.href='/welcome';
 
             });
     }
     componentDidMount() {
+       if(!Cookies.get('tutorialComplete')){
+           this.setState({showTutorial:true});
+       }
         this.updateData();
+    }
 
+    toggleTutorialModal(){
+        this.setState({showTutorial:!this.state.showTutorial});
     }
 
     changeTab(label) {
@@ -48,7 +58,7 @@ export class home extends Component {
 
     render() {
         return (<div>
-            
+            <Tutorial showTutorial={this.state.showTutorial} toggleTutorialModal={this.toggleTutorialModal.bind(this)}></Tutorial>
             <Tabs tabItemCSS={{color:'#8C1C13', fontWeight:'bold'}}
              tabBarCSS={{backgroundColor:'white',color:'#8C1C13'}} value={this.state.selectedTab} onChange={updateTab => this.changeTab(updateTab.label)}>
                 <Tab  label="Drinks" key={0}>

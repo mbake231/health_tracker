@@ -119,10 +119,11 @@ export default function CalModals(props) {
         return <View style={styles.modalView}>
         <form onChange={e => setDrinkValue(e.target.value)}>
           <div>Number of drinks</div>
-          <input type="text" value={drinkValue} onChange={e => setDrinkValue(e.target.value)}/>
+          <input type="text" inputprops={{ inputMode: 'numeric' }} value={drinkValue} onChange={e => setDrinkValue(e.target.value)}/>
           
           
         </form>
+        <br></br>
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => submitNewData(props.clickedDate)}
@@ -136,14 +137,16 @@ export default function CalModals(props) {
       return <View style={styles.modalView}>
       <form onChange={e=>setFollowedDiet(e.target.value)}>
           <div>Followed diet?</div>
-            <input type="radio" value="true" name="followedDiet"/> True
-            <input type="radio" value="false" name="followedDiet"/> False
+            <input type="radio" value="true" name="followedDiet"/> Yes
+            <input type="radio" value="false" name="followedDiet"/> No
         </form>
+        <br></br>
         <div>Ended Fast?</div>
         <form onChange={e=>setFastEnded(e.target.value)}>
-            <input type="radio" value="true" name="followedDiet"/> True
-            <input type="radio" value="false" name="followedDiet"/> False
+            <input type="radio" value="true" name="followedDiet"/> Yes
+            <input type="radio" value="false" name="followedDiet"/> No
         </form>
+        <br></br>
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => submitNewData(props.clickedDate)}
@@ -156,9 +159,11 @@ export default function CalModals(props) {
     else if(calType==='workout'){
       return <View style={styles.modalView}>
       <form onChange={e=>setWorkOut(e.target.value)}>
-          <div>Followed diet?</div>
-            <input type="radio" value="cardio" name="followedDiet"/> Cardio
-            <input type="radio" value="strength" name="followedDiet"/> Strength
+          <div>Worked out?</div><br></br>
+            <input type="radio" value="cardio" name="followedDiet"/> Cardio<br></br>
+            <input type="radio" value="strength" name="followedDiet"/> Strength<br></br>
+            <input type="radio" value="skipped" name="followedDiet"/> Skipped<br></br><br></br>
+
         </form>
         <Pressable
           style={[styles.button, styles.buttonClose]}

@@ -47,10 +47,7 @@ return(<div style={{textAlign:'center',textSize:'40px'}}>
  /><br/><br/>
 
  <button onClick={e=>submitOTP()}>Submit OTP </button>
- <br/><br/><br/><br/>Dev stuff
- Hash={props.hash}<br></br>
- Phone={props.phone}<br></br>
- OTP={props.otp}
+ <br/><br/><br/><br/>
  </div>);
 
 }
